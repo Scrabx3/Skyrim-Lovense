@@ -1,8 +1,6 @@
-# Acheron-SKSE
+# SkyrimLovense
 
-SKSE64 plugin to alter and expand "death" in Skyrim by adding various alternative condition to "die" and replace "dying" in some instances with custom (external) events
-
-For documentation on how to interact with this plugin see the [wiki](https://github.com/Scrabx3/Acheron-SKSE/wiki).
+Lovense API for TES5 Skyrim
 
 
 ## Requirements
