@@ -6,7 +6,8 @@
     "boost-stl-interfaces",
     "rsm-binary-io",
     "spdlog",
-    "magic-enum"
+    "magic-enum",
+    "curl"
   ],
   "builtin-baseline": "b7dba7f9aad09a56900f21cd78cfda1258e54e38"
 }

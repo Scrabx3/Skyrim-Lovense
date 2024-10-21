@@ -80,6 +80,7 @@ else()
 endif()
 
 find_package(spdlog REQUIRED CONFIG)
+find_package(CURL REQUIRED)
 find_package(magic_enum REQUIRED)
 
 # ---- Add source files ----
@@ -151,6 +152,7 @@ target_link_libraries(
     CommonLibSSE
     spdlog::spdlog
     magic_enum::magic_enum
+    CURL::libcurl
 )
 
 target_precompile_headers(
