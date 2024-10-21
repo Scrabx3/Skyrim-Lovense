@@ -4,15 +4,15 @@ set(ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 
 # ---- Options ----
 option(COPY_TO_PAPYRUS "Copy finished build to Papyrus SKSE Folder" ON)
-set(PAPYRUS_ROOT "Acheron")
+set(PAPYRUS_ROOT "SkyrimLovense")
 set(PAPYRUS_SE "1597")
 set(PAPYRUS_AE "SKSE/Plugins")
 set(PAPYRUS_VR "14vr")
 
 # ---- Project ----
 project(
-    Acheron
-    VERSION 1.5.3.1
+    SkyrimLovense
+    VERSION 0.1.0.0
     LANGUAGES CXX
 )
 
@@ -80,11 +80,7 @@ else()
 endif()
 
 find_package(spdlog REQUIRED CONFIG)
-find_package(yaml-cpp REQUIRED)
-find_package(nlohmann_json REQUIRED)
 find_package(magic_enum REQUIRED)
-
-find_path(SIMPLEINI_INCLUDE_DIRS "ConvertUTF.c")
 
 # ---- Add source files ----
 include(CMake/source-list.cmake)
@@ -154,8 +150,6 @@ target_link_libraries(
     PRIVATE
     CommonLibSSE
     spdlog::spdlog
-    yaml-cpp
-    nlohmann_json::nlohmann_json
     magic_enum::magic_enum
 )
 

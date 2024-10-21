@@ -1,21 +1,12 @@
 {
-  "name": "acheron",
-  "version-string": "1.4.4.4",
-  "description": "a death alternative mod for skyrim",
+  "name": "skyrim-lovense",
+  "version-string": "1.0.0.0",
+  "description": "skyrim lovense integration",
   "dependencies": [
     "boost-stl-interfaces",
     "rsm-binary-io",
     "spdlog",
-    "simpleini",
-    "magic-enum",
-    "yaml-cpp",
-    "nlohmann-json"
-  ],
-  "overrides": [
-    {
-      "name": "fmt",
-      "version": "9.1.0"
-    }
+    "magic-enum"
   ],
   "builtin-baseline": "b7dba7f9aad09a56900f21cd78cfda1258e54e38"
 }

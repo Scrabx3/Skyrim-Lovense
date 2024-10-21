@@ -7,9 +7,7 @@
 #pragma warning(pop)
 
 #include <atomic>
-#include <nlohmann/json.hpp>
 #include <unordered_map>
-#include <yaml-cpp/yaml.h>
 #include <magic_enum.hpp>
 static_assert(magic_enum::is_magic_enum_supported);
 
@@ -21,16 +19,9 @@ static_assert(magic_enum::is_magic_enum_supported);
 namespace logger = SKSE::log;
 namespace fs = std::filesystem;
 using namespace std::literals;
-using json = nlohmann::json;
 
-#include "Acheron/Misc.h"
-#include "GameForms.h"
 #include "Random.h"
-#include "Serialization/Serialize.h"
 #include "Singleton.h"
-#include "Settings.h"
-
-static constexpr auto CONFIGPATH = [](std::string file) -> std::string { return "Data\\SKSE\\Acheron\\"s + file; };
 
 #ifdef SKYRIM_SUPPORT_AE
 #define RELID(SE, AE) REL::ID(AE)
@@ -40,7 +31,6 @@ static constexpr auto CONFIGPATH = [](std::string file) -> std::string { return 
 #define OFFSET(SE, AE) SE
 #endif
 
-using Serialize = Serialization::Serialize;
 namespace stl
 {
 	using namespace SKSE::stl;
