@@ -7,7 +7,9 @@
     "rsm-binary-io",
     "spdlog",
     "magic-enum",
-    "curl"
+    "curl",
+    "nlohmann-json",
+    "frozen"
   ],
   "builtin-baseline": "b7dba7f9aad09a56900f21cd78cfda1258e54e38"
 }
