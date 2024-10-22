@@ -3,4 +3,6 @@
 *.code-workspace
 build/
 /vcpkg_installed
-
+xmake.lua
+xmake-requires.lock
+.xmake
