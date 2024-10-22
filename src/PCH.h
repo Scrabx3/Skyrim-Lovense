@@ -6,8 +6,7 @@
 #include "SKSE/SKSE.h"
 #pragma warning(pop)
 
-#include <atomic>
-#include <unordered_map>
+#include <nlohmann/json.hpp>
 #include <magic_enum.hpp>
 static_assert(magic_enum::is_magic_enum_supported);
 
