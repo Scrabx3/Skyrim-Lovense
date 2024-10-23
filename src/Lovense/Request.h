@@ -6,6 +6,7 @@
 namespace Lovense
 {
 	constexpr static inline size_t MAX_PATTERN_STRENGTH_COUNT = 50;
+	constexpr static inline double MIN_DURATION = 1.0;
 
 	struct Request
 	{
