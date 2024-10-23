@@ -92,7 +92,7 @@ namespace Lovense
 		std::string GetCommand() const override;
 
 	private:
-	  std::vector<Action> actions;
+		std::vector<Action> actions;
 		std::vector<int> strengths;
 		int intervalMs;
 		double timeSec;
@@ -100,18 +100,18 @@ namespace Lovense
 		static inline constexpr int apiVer = 2;
 	};
 
- struct Preset_Request : public Request
- {
-	 Preset_Request(Preset preset, double timeSec, std::optional<std::string> toy = std::nullopt) :
-		 Request(false), preset(preset), timeSec(timeSec), toy(toy) {};
-	 ~Preset_Request() = default;
-	 std::string GetCommand() const override;
+	struct Preset_Request : public Request
+	{
+		Preset_Request(Preset preset, double timeSec, std::optional<std::string> toy = std::nullopt) :
+			Request(false), preset(preset), timeSec(timeSec), toy(toy) {};
+		~Preset_Request() = default;
+		std::string GetCommand() const override;
 
-	 private:
-		 Preset preset;
-		 double timeSec;
-		 std::optional<std::string> toy;
-		 static inline constexpr int apiVer = 1;
- };
+	private:
+		Preset preset;
+		double timeSec;
+		std::optional<std::string> toy;
+		static inline constexpr int apiVer = 1;
+	};
 
 }	 // namespace Lovense
