@@ -37,7 +37,7 @@ namespace Lovense
 
 	Function_Request::Function_Request(std::vector<Action> a_action, std::vector<int> a_strength, double a_timeSec,
 			std::optional<double> a_loopRunningSec, std::optional<double> a_loopPauseSec, std::optional<std::string> a_toy, std::optional<int> a_stopPrevious) :
-		Request(false), action(a_action), strength(a_strength), timeSec(a_timeSec), loopRunningSec(a_loopRunningSec), loopPauseSec(a_loopPauseSec), toy(a_toy), stopPrevious(a_stopPrevious)
+		action(a_action), strength(a_strength), timeSec(a_timeSec), loopRunningSec(a_loopRunningSec), loopPauseSec(a_loopPauseSec), toy(a_toy), stopPrevious(a_stopPrevious)
 	{
 		if (action.size() != strength.size()) {
 			throw std::invalid_argument("Action and strength vectors must be the same size");
@@ -83,7 +83,7 @@ namespace Lovense
   }
 
 	Pattern_Request::Pattern_Request(const std::vector<Action>& a_actions, const std::vector<int>& a_strengths, int a_intervalMs, double a_timeSec, std::optional<std::string> a_toy) :
-		Request(false), actions(a_actions), strengths(a_strengths), intervalMs(a_intervalMs), timeSec(a_timeSec), toy(a_toy)
+		actions(a_actions), strengths(a_strengths), intervalMs(a_intervalMs), timeSec(a_timeSec), toy(a_toy)
 	{
 		if (strengths.size() > MAX_PATTERN_STRENGTH_COUNT) {
 			throw std::invalid_argument(std::format("Strengths vector must be less than {}", MAX_PATTERN_STRENGTH_COUNT));

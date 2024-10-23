@@ -7,8 +7,6 @@
 
 namespace Lovense
 {
-  constexpr static inline size_t MAX_REQUEST_NONBLOCKING = 5;
-  constexpr static inline size_t MAX_REQUESTS = 25;
 	constexpr static inline size_t LOVENSE_OK = 200;
 	constexpr static inline frozen::map<size_t, std::string_view, 7> ERROR_CODES{
 		{ 500, "HTTP server not started or disabled" },

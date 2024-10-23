@@ -12,10 +12,6 @@ namespace Lovense
 		friend class RequestHandler;
 
 	public:
-		Request(bool a_blocking) :
-			blocking(a_blocking) {}
-		~Request() = default;
-
 		virtual std::string GetCommand() const = 0;
 
 	public:
@@ -30,7 +26,6 @@ namespace Lovense
 		void WaitForResult();
 
 	private:
-		bool blocking;
 		std::mutex _m{};
 		std::condition_variable cv{};
 		std::optional<json> result{};
@@ -39,24 +34,21 @@ namespace Lovense
 
 	struct GetToys_Request : public Request
 	{
-		GetToys_Request() :
-			Request(true) {}
-		~GetToys_Request() = default;
 		std::string GetCommand() const override;
 	};
 
 	struct GetToyName_Request : public Request
 	{
-		GetToyName_Request() :
-			Request(true) {}
-		~GetToyName_Request() = default;
 		std::string GetCommand() const override;
 	};
 
 	struct Function_Request : public Request
 	{
 		Function_Request(std::vector<Action> action, std::vector<int> strength, double timeSec,
-				std::optional<double> loopRunningSec, std::optional<double> loopPauseSec, std::optional<std::string> toy, std::optional<int> stopPrevious);
+				std::optional<double> loopRunningSec = std::nullopt,
+				std::optional<double> loopPauseSec = std::nullopt,
+				std::optional<std::string> toy = std::nullopt,
+				std::optional<int> stopPrevious = std::nullopt);
 		~Function_Request() = default;
 		std::string GetCommand() const override;
 
@@ -74,7 +66,7 @@ namespace Lovense
 	struct Position_Request : public Request
 	{
 		Position_Request(int value, std::optional<std::string> toy = std::nullopt) :
-			Request(false), value(std::to_string(std::clamp(value, 0, 100))), toy(toy) {};
+			value(std::to_string(std::clamp(value, 0, 100))), toy(toy) {};
 		~Position_Request() = default;
 		std::string GetCommand() const override;
 
@@ -86,8 +78,7 @@ namespace Lovense
 
 	struct Pattern_Request : public Request
 	{
-		Pattern_Request(const std::vector<Action>& actions, const std::vector<int>& strengths, int intervalMs, double timeSec,
-				std::optional<std::string> toy = std::nullopt);
+		Pattern_Request(const std::vector<Action>& actions, const std::vector<int>& strengths, int intervalMs, double timeSec, std::optional<std::string> toy = std::nullopt);
 		~Pattern_Request() = default;
 		std::string GetCommand() const override;
 
@@ -103,7 +94,7 @@ namespace Lovense
 	struct Preset_Request : public Request
 	{
 		Preset_Request(Preset preset, double timeSec, std::optional<std::string> toy = std::nullopt) :
-			Request(false), preset(preset), timeSec(timeSec), toy(toy) {};
+			preset(preset), timeSec(timeSec), toy(toy) {};
 		~Preset_Request() = default;
 		std::string GetCommand() const override;
 

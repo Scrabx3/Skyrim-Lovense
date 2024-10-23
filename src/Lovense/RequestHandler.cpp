@@ -8,17 +8,10 @@ namespace Lovense
 	{
     {
       std::unique_lock lk{ _m };
-      if (!a_request->blocking && requests.size() > MAX_REQUEST_NONBLOCKING) {
-        return false;
-      } else if (requests.size() > MAX_REQUESTS) {
-        return false;
-      }
 			requests.push(a_request);
 		}
 		cv.notify_one();
-    if (a_request->blocking) {
-			a_request->WaitForResult();
-		}
+		a_request->WaitForResult();
     return true;
 	}
 
