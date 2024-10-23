@@ -14,4 +14,6 @@ set(CXX_FILES
 	src/Lovense/Connection.cpp
 	src/Lovense/Request.h
 	src/Lovense/Request.cpp
+	src/Lovense/RequestHandler.h
+	src/Lovense/RequestHandler.cpp
 )
