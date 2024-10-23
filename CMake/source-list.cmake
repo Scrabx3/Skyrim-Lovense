@@ -5,4 +5,13 @@ set(CXX_FILES
 	src/Random.h
 	src/Singleton.h
 	src/Script.h
+
+	src/Interface/Interface.h
+	src/Interface/LovenseMenu.h
+	src/Interface/LovenseMenu.cpp
+
+	src/Lovense/Connection.h
+	src/Lovense/Connection.cpp
+	src/Lovense/Request.h
+	src/Lovense/Request.cpp
 )
