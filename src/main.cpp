@@ -1,3 +1,5 @@
+#include "Lovense/Request.h"
+
 // static void SKSEMessageHandler(SKSE::MessagingInterface::Message* message)
 // {
 // 	switch (message->type) {
@@ -69,6 +71,11 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_s
 	}
 
 	SKSE::Init(a_skse);
+
+	if (!Lovense::RequestHandler::GetSingleton()->Initialize()) {
+		logger::critical("Failed to initialize RequestHandler");
+		return false;
+	}
 
 	// const auto papyrus = SKSE::GetPapyrusInterface();
 

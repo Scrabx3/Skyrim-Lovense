@@ -18,6 +18,7 @@ static_assert(magic_enum::is_magic_enum_supported);
 namespace logger = SKSE::log;
 namespace fs = std::filesystem;
 using namespace std::literals;
+using json = nlohmann::json;
 
 #include "Random.h"
 #include "Singleton.h"

@@ -81,7 +81,7 @@ endif()
 
 find_package(spdlog REQUIRED CONFIG)
 find_package(nlohmann_json REQUIRED)
-find_package(frozen REQUIRED)
+find_package(frozen CONFIG REQUIRED)
 find_package(CURL REQUIRED)
 find_package(magic_enum REQUIRED)
 
