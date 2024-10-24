@@ -14,9 +14,11 @@ namespace Interface
 		this->inputContext = Context::kMenuMode;
 		this->depthPriority = 3;
 		this->menuFlags.set(
+				Flag::kUsesMenuContext,
 				Flag::kCustomRendering,
-				Flag::kAssignCursorToRenderer,
-				Flag::kUsesCursor);
+				Flag::kApplicationMenu,
+				Flag::kUsesCursor,
+				Flag::kPausesGame);
 
 		auto scaleform = RE::BSScaleformManager::GetSingleton();
 		[[maybe_unused]] bool success = scaleform->LoadMovieEx(this, FILEPATH, [](RE::GFxMovieDef* a_def) -> void {
@@ -27,7 +29,7 @@ namespace Interface
 		assert(success);
 
 		auto view = this->uiMovie;
-		view->SetMouseCursorCount(0);
+		view->SetMouseCursorCount(1);
 		auto lovenseObj = FunctionManager::MakeFunctionObject(view, "Lovense");
 		if (!lovenseObj) {
 			throw std::runtime_error("Failed to create function object");
@@ -57,15 +59,16 @@ namespace Interface
 					args.emplace_back(name);
 				}
 				this->uiMovie->InvokeNoReturn("_root.main.setCategories", args.data(), static_cast<uint32_t>(args.size()));
-				__fallthrough;
 			}
+			__fallthrough;
 		case Type::kUpdate:
 			{
 				auto request = std::make_shared<Lovense::GetToys_Request>();
 				Lovense::RequestHandler::GetSingleton()->SendRequest(request);
 				std::vector<RE::GFxValue> args{};
 				if (request->IsFailure()) {
-					logger::error("Failed to update Connections: {}", request->GetError());
+					const auto err = request->GetError();
+					logger::error("Failed to update Connections: {}", err);
 				} else {
 					const auto& toys = request->GetResult()["toys"];
 					Lovense::Connection::UpdateToyList(toys);

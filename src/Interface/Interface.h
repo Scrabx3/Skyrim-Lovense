@@ -5,6 +5,7 @@ namespace Interface
 	struct SKSEScaleform_OpenMenu;
 	struct SKSEScaleform_CloseMenu;
 	struct SKSEScaleform_SendModEvent;
+	struct SKSEScaleform_AllowInput;
 
 	template <typename T>
 	class FlashLogger : public RE::GFxLog
@@ -75,6 +76,7 @@ namespace Interface
 			AttachFunction<SKSEScaleform_OpenMenu>(a_view, *skse, "OpenMenu");
 			AttachFunction<SKSEScaleform_CloseMenu>(a_view, *skse, "CloseMenu");
 			AttachFunction<SKSEScaleform_SendModEvent>(a_view, *skse, "SendModEvent");
+			AttachFunction<SKSEScaleform_AllowInput>(a_view, *skse, "AllowTextInput");
 		}
 
 	private:
@@ -124,6 +126,17 @@ namespace Interface
 				argForm ? RE::TESForm::LookupByID(argForm) : nullptr
 			};
 			SKSE::GetModCallbackEventSource()->SendEvent(&modEvent);
+		}
+	};
+
+	struct SKSEScaleform_AllowInput : public RE::GFxFunctionHandler
+	{
+		void Call(Params& a_args) override
+		{
+			assert(a_args.argCount > 0);
+
+			const auto enable = a_args.args->GetBool();
+			RE::ControlMap::GetSingleton()->AllowTextInput(enable);
 		}
 	};
 }

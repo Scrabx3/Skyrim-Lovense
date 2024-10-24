@@ -1,16 +1,15 @@
+#include "Interface/LovenseMenu.h"
 #include "Lovense/RequestHandler.h"
 #include "Skyrim/InputHandler.h"
 
-// static void SKSEMessageHandler(SKSE::MessagingInterface::Message* message)
-// {
-// 	switch (message->type) {
-// 	case SKSE::MessagingInterface::kPostLoad:
-// 	case SKSE::MessagingInterface::kSaveGame:
-// 	case SKSE::MessagingInterface::kDataLoaded:
-// 	case SKSE::MessagingInterface::kNewGame:
-// 	case SKSE::MessagingInterface::kPostLoadGame:
-// 	}
-// }
+static void SKSEMessageHandler(SKSE::MessagingInterface::Message* message)
+{
+ 	switch (message->type) {
+	case SKSE::MessagingInterface::kDataLoaded:
+		Skyrim::InputHandler::Register();
+		break;
+ 	}
+ }
 
 #ifdef SKYRIM_SUPPORT_AE
 extern "C" DLLEXPORT constinit auto SKSEPlugin_Version = []() {
@@ -77,16 +76,12 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_s
 		logger::critical("Failed to initialize RequestHandler");
 		return false;
 	}
-
-	Skyrim::InputHandler::Register();
-
-	// const auto papyrus = SKSE::GetPapyrusInterface();
-
-	// const auto msging = SKSE::GetMessagingInterface();
-	// if (!msging->RegisterListener("SKSE", SKSEMessageHandler)) {
-	// 	logger::critical("Failed to register Listener");
-	// 	return false;
-	// }
+	 const auto msging = SKSE::GetMessagingInterface();
+	 if (!msging->RegisterListener("SKSE", SKSEMessageHandler)) {
+	 	logger::critical("Failed to register Listener");
+	 	return false;
+	 }
+	 Interface::LovenseMenu::Register();
 
 	// const auto serialization = SKSE::GetSerializationInterface();
 	// serialization->SetUniqueID('achr');
