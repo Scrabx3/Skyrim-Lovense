@@ -31,7 +31,7 @@ namespace Lovense
 
 	private:
     void Worker();
-		size_t WriteCallback(void* a_ptr, size_t a_size, size_t a_nmemb, std::string& a_data);
+		size_t WriteCallback(void* a_ptr, size_t a_size, size_t a_nmemb, void* a_data);
 
 		std::mutex _m{};
     std::thread _t{};

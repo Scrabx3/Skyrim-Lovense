@@ -39,18 +39,22 @@ namespace Lovense
 			curl_easy_reset(curl);
 
 			std::string responseData{};
-			const auto url = std::format("https://{}:{}/command", ipAddr, port);
+			const auto url = std::format("https://{}.lovense.club:{}/command", ipAddr, port);
 			struct curl_slist* headers = nullptr;
 			headers = curl_slist_append(headers, "Content-Type: application/json");
 			const auto platformHeader = std::format("X-platform: {}", Plugin::NAME);
 			headers = curl_slist_append(headers, platformHeader.c_str());
+			static constexpr auto TIMEOUT = 500L;
 
 			curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
 			curl_easy_setopt(curl, CURLOPT_POST, 1L);
+			curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 			curl_easy_setopt(curl, CURLOPT_POSTFIELDS, command.c_str());
 			curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, command.length());
 			curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &RequestHandler::WriteCallback);
 			curl_easy_setopt(curl, CURLOPT_WRITEDATA, &responseData);
+			curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, TIMEOUT);
+			curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
 
 			const auto res = curl_easy_perform(curl);
 			curl_slist_free_all(headers);
@@ -73,10 +77,10 @@ namespace Lovense
 		} // end while
 	}
 
-	size_t RequestHandler::WriteCallback(void* a_ptr, size_t a_size, size_t a_nmemb, std::string& a_data)
+	size_t RequestHandler::WriteCallback(void* a_ptr, size_t a_size, size_t a_nmemb, void* a_data)
 	{
 		const auto size = a_size * a_nmemb;
-		a_data.append(static_cast<char*>(a_ptr), size);
+		static_cast<std::string*>(a_data)->append(static_cast<char*>(a_ptr), size);
 		return size;
 	}
 

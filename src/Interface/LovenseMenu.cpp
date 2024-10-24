@@ -62,7 +62,7 @@ namespace Interface
 			}
 			__fallthrough;
 		case Type::kUpdate:
-			{
+			try {
 				auto request = std::make_shared<Lovense::GetToys_Request>();
 				Lovense::RequestHandler::GetSingleton()->SendRequest(request);
 				std::vector<RE::GFxValue> args{};
@@ -83,6 +83,9 @@ namespace Interface
 					});
 				}
 				this->uiMovie->InvokeNoReturn("_root.main.addItems", args.data(), static_cast<uint32_t>(args.size()));
+				return Result::kHandled;
+			} catch (const std::exception& e) {
+				logger::error("Failed to update Connections: {}", e.what());
 				return Result::kHandled;
 			}
 		case Type::kHide:
