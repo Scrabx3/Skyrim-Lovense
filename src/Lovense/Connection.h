@@ -5,11 +5,11 @@
 
 namespace Lovense
 {
-  struct Toy
+	struct Toy
 	{
-    Toy(const std::string& a_id, const std::string& a_name, Category a_category) :
-      id(a_id), name(a_name), category(a_category) {}
-    ~Toy() = default;
+		Toy(const std::string& a_id, const std::string& a_name, Category a_category) :
+			id(a_id), name(a_name), category(a_category) {}
+		~Toy() = default;
 
 		std::string id;
 		std::string name;
@@ -23,21 +23,21 @@ namespace Lovense
 	{
 		Connection() = delete;
 
-    static std::string GetIP_ADDR();
-    static std::string GetPort();
+		static std::string GetIP_ADDR();
+		static std::string GetPort();
 		static Category GetCategory(std::string_view a_id);
-    static void VisitToys(std::function<bool(const Toy&)> a_visitor);
+		static void VisitToys(std::function<bool(const Toy&)> a_visitor);
 
-    static void SetIP_ADDR(const std::string& a_addr);
-    static void SetPORT(const std::string& a_port);
-    static void UpdateToyList(const json& a_toys);
-    static void AssignCategory(std::string_view a_id, Category a_category);
+		static void SetIP_ADDR(const std::string& a_addr);
+		static void SetPORT(const std::string& a_port);
+		static void UpdateToyList(const json& a_toys);
+		static void AssignCategory(std::string_view a_id, Category a_category);
 
-  private:
-    static inline std::shared_mutex _m;
+	private:
+		static inline std::shared_mutex _m;
 		static inline std::string IP_ADDR{ "" };
 		static inline std::string PORT{ "" };
-    static inline std::vector<Toy> devices{};
+		static inline std::vector<Toy> devices{};
 	};
 
-} // namespace Lovense
+}	 // namespace Lovense

@@ -51,9 +51,7 @@ namespace Lovense
 		decltype(devices) newDevices{};
 		for (const auto& toy : a_toys) {
 			const auto id = toy["id"].get<std::string>();
-			const auto name = toy.contains("nickName") ? toy["nickName"].get<std::string>() :
-												toy.contains("name")		 ? toy["name"].get<std::string>() :
-																									 id;
+			const auto name = toy[toy.contains("nickName") ? "nickName" : "name"].get<std::string>();
 			const auto category = GetCategory(id);
 			newDevices.emplace_back(id, name, category);
 		}
