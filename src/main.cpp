@@ -1,4 +1,5 @@
 #include "Lovense/RequestHandler.h"
+#include "Skyrim/InputHandler.h"
 
 // static void SKSEMessageHandler(SKSE::MessagingInterface::Message* message)
 // {
@@ -76,6 +77,8 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_s
 		logger::critical("Failed to initialize RequestHandler");
 		return false;
 	}
+
+	Skyrim::InputHandler::Register();
 
 	// const auto papyrus = SKSE::GetPapyrusInterface();
 
