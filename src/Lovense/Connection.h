@@ -1,27 +1,22 @@
 #pragma once
 #include <shared_mutex>
 
+#include "Category.h"
+
 namespace Lovense
 {
   struct Toy
 	{
-		enum class Category
-		{
-			Any = 0,
-
-			Genital,
-			Anal,
-			Breasts,
-		};
-
-	public:
-    Toy(const std::string& a_id, const std::string& a_name, Category a_category = Category::Any) :
+    Toy(const std::string& a_id, const std::string& a_name, Category a_category) :
       id(a_id), name(a_name), category(a_category) {}
     ~Toy() = default;
 
 		std::string id;
 		std::string name;
 		Category category;
+
+	public:
+		bool operator==(const Toy& a_rhs) const { return id == a_rhs.id; }
 	};
 
 	struct Connection final
@@ -30,11 +25,13 @@ namespace Lovense
 
     static std::string GetIP_ADDR();
     static std::string GetPort();
+		static Category GetCategory(std::string_view a_id);
     static void VisitToys(std::function<bool(const Toy&)> a_visitor);
 
     static void SetIP_ADDR(const std::string& a_addr);
     static void SetPORT(const std::string& a_port);
-    static void UpdateToyList();
+    static void UpdateToyList(const json& a_toys);
+    static void AssignCategory(std::string_view a_id, Category a_category);
 
   private:
     static inline std::shared_mutex _m;

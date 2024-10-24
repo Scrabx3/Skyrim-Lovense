@@ -21,13 +21,13 @@ namespace Lovense
 	class RequestHandler :
 		public Singleton<RequestHandler>
 	{
-		bool SendRequest(std::shared_ptr<Request> a_request);
-
 	public:
 		RequestHandler() :
 			_t(&RequestHandler::Worker, this) {}
 		~RequestHandler();
+
 		bool Initialize();
+		bool SendRequest(std::shared_ptr<Request> a_request);
 
 	private:
     void Worker();

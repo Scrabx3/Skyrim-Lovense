@@ -14,6 +14,15 @@ namespace Lovense
 		return PORT;
 	}
 
+	Category Connection::GetCategory(std::string_view a_id)
+	{
+		std::shared_lock lock(_m);
+		const auto it = std::find_if(devices.begin(), devices.end(), [a_id](const auto& a_t) {
+			return a_t.id == a_id;
+		});
+		return it != devices.end() ? it->category : Category::Always;
+	}
+
 	void Connection::VisitToys(std::function<bool(const Toy&)> a_visitor)
 	{
 		std::shared_lock lock(_m);
@@ -36,10 +45,30 @@ namespace Lovense
 		PORT = a_port;
 	}
 
-	void Connection::UpdateToyList()
+	void Connection::UpdateToyList(const json& a_toys)
 	{
 		std::unique_lock lock(_m);
-		// TODO: Implementation to update the devices vector
+		decltype(devices) newDevices{};
+		for (const auto& toy : a_toys) {
+			const auto id = toy["id"].get<std::string>();
+			const auto name = toy.contains("nickName") ? toy["nickName"].get<std::string>() :
+												toy.contains("name")		 ? toy["name"].get<std::string>() :
+																									 id;
+			const auto category = GetCategory(id);
+			newDevices.emplace_back(id, name, category);
+		}
+		devices = newDevices;
+	}
+
+	void Connection::AssignCategory(std::string_view a_id, Category a_category)
+	{
+		std::unique_lock lock(_m);
+		const auto it = std::find_if(devices.begin(), devices.end(), [a_id](const auto& a_t) {
+			return a_t.id == a_id;
+		});
+		if (it != devices.end()) {
+			it->category = a_category;
+		}
 	}
 
 }	 // namespace Lovense
