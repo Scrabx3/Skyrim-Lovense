@@ -19,4 +19,8 @@ set(CXX_FILES
 	src/Lovense/Request.cpp
 	src/Lovense/RequestHandler.h
 	src/Lovense/RequestHandler.cpp
+
+	src/Skyrim/InputHandler.h
+	src/Skyrim/InputHandler.cpp
+	src/Skyrim/Settings.h
 )

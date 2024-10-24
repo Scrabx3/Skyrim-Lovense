@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Registry::Interface
+namespace Interface
 {
 	class LovenseMenu :
 		public RE::IMenu

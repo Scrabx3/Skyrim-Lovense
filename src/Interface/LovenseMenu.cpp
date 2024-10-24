@@ -4,9 +4,9 @@
 #include "Lovense/Connection.h"
 #include "Lovense/Request.h"
 #include "Lovense/RequestHandler.h"
-#include "Lovense/Category.h"
+#include "Lovense/Define/Category.h"
 
-namespace Registry::Interface
+namespace Interface
 {
 	LovenseMenu::LovenseMenu() :
 		RE::IMenu()
