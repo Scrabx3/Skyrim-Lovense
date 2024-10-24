@@ -10,6 +10,9 @@ set(CXX_FILES
 	src/Interface/LovenseMenu.h
 	src/Interface/LovenseMenu.cpp
 
+	src/Lovense/Define/Action.h
+	src/Lovense/Define/Category.h
+	src/Lovense/Define/Preset.h
 	src/Lovense/Connection.h
 	src/Lovense/Connection.cpp
 	src/Lovense/Request.h

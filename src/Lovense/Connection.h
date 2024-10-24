@@ -1,7 +1,7 @@
 #pragma once
 #include <shared_mutex>
 
-#include "Category.h"
+#include "Define/Category.h"
 
 namespace Lovense
 {

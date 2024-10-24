@@ -82,6 +82,25 @@ namespace Registry::Interface
 				this->uiMovie->InvokeNoReturn("_root.main.addItems", args.data(), static_cast<uint32_t>(args.size()));
 				return Result::kHandled;
 			}
+		case Type::kHide:
+			{
+				auto items = RE::GFxValue{};
+				this->uiMovie->GetVariable(&items, "_root.main.item_list.items");
+				assert(items.IsArray());
+				auto obj = RE::GFxValue{}, idObj = RE::GFxValue{}, catObj = RE::GFxValue{};
+				for (uint32_t i = 0; i < items.GetArraySize(); i++) {
+					items.GetElement(i, &obj);
+					obj.GetMember("id", &idObj);
+					assert(idObj.IsString());
+					obj.GetMember("category", &catObj);
+					assert(catObj.IsString());
+					const auto id = idObj.GetString();
+					const auto cat = catObj.GetString();
+					const auto category = magic_enum::enum_cast<Lovense::Category>(cat);
+					Lovense::Connection::AssignCategory(id, category.value());
+				}
+				return Result::kHandled;
+			}
 		default:
 			return RE::IMenu::ProcessMessage(a_message);
 		}

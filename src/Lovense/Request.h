@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Action.h"
-#include "Preset.h"
+#include "Define/Action.h"
+#include "Define/Preset.h"
 
 namespace Lovense
 {
