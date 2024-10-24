@@ -28,6 +28,12 @@ namespace Registry::Interface
 
 		auto view = this->uiMovie;
 		view->SetMouseCursorCount(0);
+		auto lovenseObj = FunctionManager::MakeFunctionObject(view, "Lovense");
+		if (!lovenseObj) {
+			throw std::runtime_error("Failed to create function object");
+		}
+		FunctionManager::AttachFunction<Scaleform_ReConnect>(view, *lovenseObj, "ReConnect");
+		FunctionManager::AttachFunction<Scaleform_Help>(view, *lovenseObj, "Help");
 		FunctionManager::AttachSKSEFunctions(view);
 	}
 
@@ -91,5 +97,12 @@ namespace Registry::Interface
 		Lovense::Connection::SetPORT(port);
 
 		LovenseMenu::RequestUpdate();
+	}
+
+	void Scaleform_Help::Call(Params&)
+	{
+		std::string url = "https://www.nexusmods.com";
+		ShellExecuteA(nullptr, "open", url.c_str(), nullptr, nullptr, SW_SHOWNORMAL);
+		logger::info("Help requested");
 	}
 }

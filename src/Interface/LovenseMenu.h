@@ -33,4 +33,9 @@ namespace Registry::Interface
 	{
 		void Call(Params& a_args) override;
 	};
+
+	struct Scaleform_Help : public RE::GFxFunctionHandler
+	{
+		void Call(Params& a_args) override;
+	};
 }
