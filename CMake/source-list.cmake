@@ -6,10 +6,6 @@ set(CXX_FILES
 	src/Singleton.h
 	src/Script.h
 
-	src/Interface/Interface.h
-	src/Interface/LovenseMenu.h
-	src/Interface/LovenseMenu.cpp
-
 	src/Lovense/Define/Action.h
 	src/Lovense/Define/Category.h
 	src/Lovense/Define/Preset.h
@@ -20,6 +16,9 @@ set(CXX_FILES
 	src/Lovense/RequestHandler.h
 	src/Lovense/RequestHandler.cpp
 
+	src/Skyrim/Interface/Interface.h
+	src/Skyrim/Interface/LovenseMenu.h
+	src/Skyrim/Interface/LovenseMenu.cpp
 	src/Skyrim/InputHandler.h
 	src/Skyrim/InputHandler.cpp
 	src/Skyrim/Settings.h

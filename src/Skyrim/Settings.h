@@ -2,11 +2,11 @@
 
 namespace Skyrim
 {
-  static inline constexpr auto INIPATH = L"Data/SKSE/Plugins/SkyrimLovense.ini";
+	static inline constexpr auto INIPATH{ "Data/SKSE/Plugins/Lovense.ini" };
 
-  struct Settings
+	struct Settings
 	{
-		static inline void Initialize();
+		static void Initialize();
     
     static inline int iMenuKey = 68;
 		static inline bool bUseSSL = false;

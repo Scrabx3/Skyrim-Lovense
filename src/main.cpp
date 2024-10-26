@@ -1,6 +1,7 @@
-#include "Interface/LovenseMenu.h"
+#include "Skyrim/Interface/LovenseMenu.h"
 #include "Lovense/RequestHandler.h"
 #include "Skyrim/InputHandler.h"
+#include "Skyrim/Settings.h"
 
 static void SKSEMessageHandler(SKSE::MessagingInterface::Message* message)
 {
@@ -82,6 +83,7 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_s
 	 	return false;
 	 }
 	 Interface::LovenseMenu::Register();
+	 Skyrim::Settings::Initialize();
 
 	// const auto serialization = SKSE::GetSerializationInterface();
 	// serialization->SetUniqueID('achr');
