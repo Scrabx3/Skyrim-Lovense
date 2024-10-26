@@ -60,7 +60,7 @@ namespace Interface
 				}
 				this->uiMovie->InvokeNoReturn("_root.main.setCategories", args.data(), static_cast<uint32_t>(args.size()));
 			}
-			__fallthrough;
+			return Result::kHandled;
 		case Type::kUpdate:
 			try {
 				auto request = std::make_shared<Lovense::GetToys_Request>();
