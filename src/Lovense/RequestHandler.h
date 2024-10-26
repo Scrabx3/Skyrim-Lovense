@@ -1,5 +1,4 @@
 #pragma once
-
 #include <curl/curl.h>
 #include <frozen/map.h>
 
@@ -30,14 +29,14 @@ namespace Lovense
 		bool SendRequest(std::shared_ptr<Request> a_request);
 
 	private:
-    void Worker();
-		size_t WriteCallback(void* a_ptr, size_t a_size, size_t a_nmemb, void* a_data);
+		void Worker();
+		static size_t WriteCallBack(char* data, size_t size, size_t nmemb, std::string& clientp);
 
 		std::mutex _m{};
-    std::thread _t{};
-    std::atomic_bool terminate{ false };
-    std::condition_variable cv{};
-    std::queue<std::shared_ptr<Request>> requests{};
+		std::thread _t{};
+		std::atomic_bool terminate{ false };
+		std::condition_variable cv{};
+		std::queue<std::shared_ptr<Request>> requests{};
 		CURL* curl{ nullptr };
 	};
 

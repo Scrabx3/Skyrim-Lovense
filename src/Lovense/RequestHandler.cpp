@@ -6,13 +6,13 @@ namespace Lovense
 {
 	bool RequestHandler::SendRequest(std::shared_ptr<Request> a_request)
 	{
-    {
-      std::unique_lock lk{ _m };
+		{
+			std::unique_lock lk{ _m };
 			requests.push(a_request);
 		}
 		cv.notify_one();
 		a_request->WaitForResult();
-    return true;
+		return true;
 	}
 
 	void RequestHandler::Worker()
@@ -21,7 +21,7 @@ namespace Lovense
 			std::unique_lock lk{ _m };
 			cv.wait(lk, [this] { return !requests.empty() || terminate; });
 			if (terminate) {
-				return;
+				break;
 			}
 			auto request = requests.front();
 			requests.pop();
@@ -36,28 +36,42 @@ namespace Lovense
 				request->SetFailure("Empty command");
 				continue;
 			}
-			curl_easy_reset(curl);
 
 			std::string responseData{};
-			const auto url = std::format("https://{}.lovense.club:{}/command", ipAddr, port);
+			const auto url = std::format("http://{}:{}/command", ipAddr, port);
+			const auto platformHeader = std::format("X-Platform: {}", Plugin::NAME);
 			struct curl_slist* headers = nullptr;
 			headers = curl_slist_append(headers, "Content-Type: application/json");
-			const auto platformHeader = std::format("X-platform: {}", Plugin::NAME);
 			headers = curl_slist_append(headers, platformHeader.c_str());
-			static constexpr auto TIMEOUT = 500L;
+			static constexpr auto TIMEOUT = 400L;
 
 			curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-			curl_easy_setopt(curl, CURLOPT_POST, 1L);
 			curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+			curl_easy_setopt(curl, CURLOPT_POST, 1L);
 			curl_easy_setopt(curl, CURLOPT_POSTFIELDS, command.c_str());
-			curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, command.length());
-			curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &RequestHandler::WriteCallback);
+			curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, command.size());
+			curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallBack);
 			curl_easy_setopt(curl, CURLOPT_WRITEDATA, &responseData);
 			curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, TIMEOUT);
-			curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+#ifndef NDEBUG
+			constexpr auto filePath = "./Data/SKSE/Lovense/ErrLog.txt";
+			FILE* file = nullptr;
+			if (fopen_s(&file, filePath, "w") == 0) {
+				curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+				curl_easy_setopt(curl, CURLOPT_STDERR, file);
+			} else {
+				logger::error("Failed to open file: {}", filePath);
+			}
+#endif
 
 			const auto res = curl_easy_perform(curl);
 			curl_slist_free_all(headers);
+			curl_easy_reset(curl);
+#ifndef NDEBUG
+			if (file) {
+				fclose(file);
+			}
+#endif
 			if (res != CURLE_OK) {
 				request->SetFailure(std::format("curl_easy_perform() failed: {}", curl_easy_strerror(res)));
 				continue;
@@ -70,27 +84,24 @@ namespace Lovense
 					request->SetFailure(std::format("Invalid command: {}", ERROR_CODES.at(errCode)));
 					continue;
 				}
-				request->SetResult(json);
+				request->SetResult(json["data"]);
 			} catch (const std::exception& e) {
 				request->SetFailure(std::format("Failed to parse response: {}", e.what()));
 			}
-		} // end while
+		}	 // end while
 	}
-
-	size_t RequestHandler::WriteCallback(void* a_ptr, size_t a_size, size_t a_nmemb, void* a_data)
+	
+	size_t RequestHandler::WriteCallBack(char* data, size_t size, size_t nmemb, std::string& clientp)
 	{
-		const auto size = a_size * a_nmemb;
-		static_cast<std::string*>(a_data)->append(static_cast<char*>(a_ptr), size);
-		return size;
+		size_t realsize = size * nmemb;
+		clientp.append(data, realsize);
+		return realsize;
 	}
 
 	RequestHandler::~RequestHandler()
 	{
-    {
-      std::unique_lock lk{ _m };
-      terminate = true;
-    }
-    cv.notify_one();
+		terminate = true;
+		cv.notify_one();
     _t.join();
     curl_easy_cleanup(curl);
     curl_global_cleanup();

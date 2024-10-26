@@ -37,7 +37,6 @@ namespace Lovense
 	{
 		std::unique_lock lock(_m);
 		IP_ADDR = a_addr;
-		std::ranges::replace(IP_ADDR, '.', '-');
 	}
 
 	void Connection::SetPORT(const std::string& a_port)

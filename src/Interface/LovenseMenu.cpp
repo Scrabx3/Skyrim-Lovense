@@ -71,7 +71,9 @@ namespace Interface
 					logger::error("Failed to update Connections: {}", err);
 				} else {
 					const auto& toys = request->GetResult()["toys"];
-					Lovense::Connection::UpdateToyList(toys);
+					const auto toyStr = toys.get<std::string>();
+					const auto jToys = json::parse(toyStr);
+					Lovense::Connection::UpdateToyList(jToys);
 					Lovense::Connection::VisitToys([&args](const Lovense::Toy& toy) {
 						std::string_view cat = magic_enum::enum_name(toy.category);
 						RE::GFxValue toyObj;
