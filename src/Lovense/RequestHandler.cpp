@@ -1,6 +1,7 @@
 #include "RequestHandler.h"
 
 #include "Connection.h"
+#include "Skyrim/Settings.h"
 
 namespace Lovense
 {
@@ -25,7 +26,7 @@ namespace Lovense
 			}
 			auto request = requests.front();
 			requests.pop();
-			const auto ipAddr = Connection::GetIP_ADDR();
+			auto ipAddr = Connection::GetIP_ADDR();
 			const auto port = Connection::GetPort();
 			if (ipAddr.empty() || port.empty() || !curl) {
 				request->SetFailure("Connection not initialized");
@@ -38,7 +39,14 @@ namespace Lovense
 			}
 
 			std::string responseData{};
-			const auto url = std::format("http://{}:{}/command", ipAddr, port);
+			const auto url = [&] {
+				if (Skyrim::Settings::bUseSSL) {
+					std::ranges::replace(ipAddr, '.', '-');
+					return std::format("https://{}.lovense.club:{}/command", ipAddr, port);
+				} else {
+					return std::format("http://{}:{}/command", ipAddr, port);
+				}
+			}();
 			const auto platformHeader = std::format("X-Platform: {}", Plugin::NAME);
 			struct curl_slist* headers = nullptr;
 			headers = curl_slist_append(headers, "Content-Type: application/json");
