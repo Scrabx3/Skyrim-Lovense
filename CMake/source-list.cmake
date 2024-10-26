@@ -23,4 +23,5 @@ set(CXX_FILES
 	src/Skyrim/InputHandler.h
 	src/Skyrim/InputHandler.cpp
 	src/Skyrim/Settings.h
+	src/Skyrim/Settings.cpp
 )
