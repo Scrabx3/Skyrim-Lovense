@@ -21,6 +21,7 @@ set(CXX_FILES
 	src/Skyrim/Interface/LovenseMenu.cpp
 	src/Skyrim/InputHandler.h
 	src/Skyrim/InputHandler.cpp
+	src/Skyrim/Serialize.h
 	src/Skyrim/Settings.h
 	src/Skyrim/Settings.cpp
 )

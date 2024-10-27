@@ -2,6 +2,7 @@
 #include "Lovense/RequestHandler.h"
 #include "Skyrim/InputHandler.h"
 #include "Skyrim/Settings.h"
+#include "Skyrim/Serialize.h"
 
 static void SKSEMessageHandler(SKSE::MessagingInterface::Message* message)
 {
@@ -43,7 +44,7 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_s
 		auto path = logger::log_directory();
 		if (!path)
 			return false;
-		*path /= fmt::format(FMT_STRING("{}.log"), Plugin::NAME);
+		*path /= std::format("{}.log", Plugin::NAME);
 		auto sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(path->string(), true);
 #endif
 		auto log = std::make_shared<spdlog::logger>("global log"s, std::move(sink));
@@ -85,12 +86,12 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_s
 	 Interface::LovenseMenu::Register();
 	 Skyrim::Settings::Initialize();
 
-	// const auto serialization = SKSE::GetSerializationInterface();
-	// serialization->SetUniqueID('achr');
-	// serialization->SetSaveCallback(Serialization::Serialize::SaveCallback);
-	// serialization->SetLoadCallback(Serialization::Serialize::LoadCallback);
-	// serialization->SetRevertCallback(Serialization::Serialize::RevertCallback);
-	// serialization->SetFormDeleteCallback(Serialization::Serialize::FormDeleteCallback);
+	const auto serialization = SKSE::GetSerializationInterface();
+	serialization->SetUniqueID('lvns');
+	serialization->SetSaveCallback(Skyrim::Serialization::SaveCallback);
+	serialization->SetLoadCallback(Skyrim::Serialization::LoadCallback);
+	serialization->SetRevertCallback(Skyrim::Serialization::RevertCallback);
+	serialization->SetFormDeleteCallback(Skyrim::Serialization::FormDeleteCallback);
 
 	logger::info("{} loaded", Plugin::NAME);
 
