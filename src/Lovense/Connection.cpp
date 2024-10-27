@@ -17,10 +17,7 @@ namespace Lovense
 	Category Connection::GetCategory(std::string_view a_id)
 	{
 		std::shared_lock lock(_m);
-		const auto it = std::find_if(devices.begin(), devices.end(), [a_id](const auto& a_t) {
-			return a_t.id == a_id;
-		});
-		return it != devices.end() ? it->category : Category::Always;
+		return GetCategoryImpl(a_id);
 	}
 
 	void Connection::VisitToys(std::function<bool(const Toy&)> a_visitor)
@@ -51,11 +48,18 @@ namespace Lovense
 		decltype(devices) newDevices{};
 		for (const auto& toy : a_toys) {
 			const auto id = toy["id"].get<std::string>();
-			const auto name = toy[toy.contains("nickName") ? "nickName" : "name"].get<std::string>();
-			const auto category = GetCategory(id);
-			newDevices.emplace_back(id, name, category);
+			const auto nickName = toy["nickName"].get<std::string>();
+			const auto name = toy["name"].get<std::string>();
+			const auto category = GetCategoryImpl(id);
+			newDevices.emplace_back(id, nickName.empty() ? name : nickName, category);
 		}
 		devices = newDevices;
+	}
+
+	void Connection::ClearToyList()
+	{
+		std::unique_lock lock(_m);
+		devices.clear();
 	}
 
 	void Connection::AssignCategory(std::string_view a_id, Category a_category)
@@ -67,6 +71,14 @@ namespace Lovense
 		if (it != devices.end()) {
 			it->category = a_category;
 		}
+	}
+
+	Category Connection::GetCategoryImpl(std::string_view a_id)
+	{
+		const auto it = std::find_if(devices.begin(), devices.end(), [a_id](const auto& a_t) {
+			return a_t.id == a_id;
+		});
+		return it != devices.end() ? it->category : Category::Always;
 	}
 
 }	 // namespace Lovense

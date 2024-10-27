@@ -31,9 +31,12 @@ namespace Lovense
 		static void SetIP_ADDR(const std::string& a_addr);
 		static void SetPORT(const std::string& a_port);
 		static void UpdateToyList(const json& a_toys);
+		static void ClearToyList();
 		static void AssignCategory(std::string_view a_id, Category a_category);
 
 	private:
+		static Category GetCategoryImpl(std::string_view a_id);
+
 		static inline std::shared_mutex _m;
 		static inline std::string IP_ADDR{ "" };
 		static inline std::string PORT{ "" };
