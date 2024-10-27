@@ -6,3 +6,7 @@ build/
 xmake.lua
 xmake-requires.lock
 .xmake
+package/tmp
+package/.release
+package/SKSE/Plugins/*.pdb
+package/SKSE/Plugins/*.dll
