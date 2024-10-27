@@ -27,6 +27,9 @@ namespace Interface
 	protected:
 		// IMenu
 		RE::UI_MESSAGE_RESULTS ProcessMessage(RE::UIMessage& a_message) override;
+
+	public:
+		void UpdateToyList() const;
 	};
 
 	struct Scaleform_ReConnect : public RE::GFxFunctionHandler

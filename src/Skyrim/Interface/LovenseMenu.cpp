@@ -59,32 +59,34 @@ namespace Interface
 					args.emplace_back(name);
 				}
 				this->uiMovie->InvokeNoReturn("_root.main.setCategories", args.data(), static_cast<uint32_t>(args.size()));
+				const auto ipAddr = Lovense::Connection::GetIP_ADDR();
+				if (!ipAddr.empty()) {
+					RE::GFxValue arg{ ipAddr };
+					this->uiMovie->InvokeNoReturn("_root.main.setIP", &arg, 1);
+				}
+				const auto port = Lovense::Connection::GetPort();
+				if (!port.empty()) {
+					RE::GFxValue arg{ port };
+					this->uiMovie->InvokeNoReturn("_root.main.setPort", &arg, 1);
+				}
+				UpdateToyList();
 			}
 			return Result::kHandled;
 		case Type::kUpdate:
 			try {
 				auto request = std::make_shared<Lovense::GetToys_Request>();
 				Lovense::RequestHandler::GetSingleton()->SendRequest(request);
-				std::vector<RE::GFxValue> args{};
 				if (request->IsFailure()) {
 					const auto err = request->GetError();
 					logger::error("Failed to update Connections: {}", err);
+					Lovense::Connection::ClearToyList();
 				} else {
 					const auto& toys = request->GetResult()["toys"];
 					const auto toyStr = toys.get<std::string>();
 					const auto jToys = json::parse(toyStr);
 					Lovense::Connection::UpdateToyList(jToys);
-					Lovense::Connection::VisitToys([&args](const Lovense::Toy& toy) {
-						std::string_view cat = magic_enum::enum_name(toy.category);
-						RE::GFxValue toyObj;
-						toyObj.SetMember("id", RE::GFxValue{ std::string_view{ toy.id } });
-						toyObj.SetMember("name", RE::GFxValue{ std::string_view{ toy.name } });
-						toyObj.SetMember("category", RE::GFxValue{ cat });
-						args.emplace_back(toyObj);
-						return true;
-					});
 				}
-				this->uiMovie->InvokeNoReturn("_root.main.addItems", args.data(), static_cast<uint32_t>(args.size()));
+				UpdateToyList();
 				return Result::kHandled;
 			} catch (const std::exception& e) {
 				logger::error("Failed to update Connections: {}", e.what());
@@ -99,19 +101,42 @@ namespace Interface
 				for (uint32_t i = 0; i < items.GetArraySize(); i++) {
 					items.GetElement(i, &obj);
 					obj.GetMember("id", &idObj);
-					assert(idObj.IsString());
 					obj.GetMember("category", &catObj);
-					assert(catObj.IsString());
 					const auto id = idObj.GetString();
-					const auto cat = catObj.GetString();
+					const auto cat = static_cast<int>(catObj.GetNumber());
 					const auto category = magic_enum::enum_cast<Lovense::Category>(cat);
-					Lovense::Connection::AssignCategory(id, category.value());
+					if (category) {
+						Lovense::Connection::AssignCategory(id, category.value());
+					} else {
+						logger::error("Invalid category for toy: {}: {}", id, cat);
+					}
 				}
 				return Result::kHandled;
 			}
 		default:
 			return RE::IMenu::ProcessMessage(a_message);
 		}
+	}
+
+	void LovenseMenu::UpdateToyList() const
+	{
+		std::vector<RE::GFxValue> args{};
+		Lovense::Connection::VisitToys([&](const Lovense::Toy& toy) {
+			std::optional<size_t> catIdx = magic_enum::enum_index(toy.category);
+			if (!catIdx) {
+				logger::error("Invalid category for toy: {} ({})", toy.name, toy.id);
+				catIdx = std::make_optional(0);
+			}
+			const auto idx = std::to_string(*catIdx);
+			RE::GFxValue toyObj{};
+			this->uiMovie->CreateObject(&toyObj);
+			toyObj.SetMember("id", RE::GFxValue{ std::string_view{ toy.id } });
+			toyObj.SetMember("name", RE::GFxValue{ std::string_view{ toy.name } });
+			toyObj.SetMember("category", RE::GFxValue{ std::string_view{ idx } });
+			args.emplace_back(toyObj);
+			return true;
+		});
+		this->uiMovie->InvokeNoReturn("_root.main.addItems", args.data(), static_cast<uint32_t>(args.size()));
 	}
 
   void Scaleform_ReConnect::Call(Params& a_args)
