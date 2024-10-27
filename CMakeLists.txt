@@ -179,4 +179,11 @@ if(COPY_TO_PAPYRUS)
             "Variable ${SkyrimPath} is not defined. Skipping post-build copy command."
         )
     endif()
+
+    add_custom_command(
+        TARGET ${PROJECT_NAME}
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> "${CMAKE_SOURCE_DIR}\\package\\SKSE\\Plugins"
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_PDB_FILE:${PROJECT_NAME}> "${CMAKE_SOURCE_DIR}\\package\\SKSE\\Plugins"
+    )
 endif()
