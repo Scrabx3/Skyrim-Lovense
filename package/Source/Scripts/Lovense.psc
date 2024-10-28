@@ -37,7 +37,7 @@ bool Function StopRequest(String asToy = "") native global
 ; aiStopPrevious: Stop the previous action before starting the new one
 ; --- Return ---
 ; True if the request was successful, false otherwise
-bool Function FunctionRequest(String[] asActions, int[] asStrengths, float asTimeSec, float loopRunningSec = 0.0, float loopPauseSec = 0.0, String asToy = "", bool abStopPrevious = true) native global
+bool Function FunctionRequest(String[] asActions, int[] aiStrengths, float afTimeSec, float afLoopRunningSec = 0.0, float afLoopPauseSec = 0.0, String asToy = "", bool abStopPrevious = true) native global
 
 ; Request a complex behavior from a toy. For more information see:
 ; https://developer.lovense.com/docs/standard-solutions/standard-api.html#pattern-request
@@ -49,7 +49,7 @@ bool Function FunctionRequest(String[] asActions, int[] asStrengths, float asTim
 ; asToy: ID of the toy to perform the actions on. If empty, all connected toys will be used
 ; --- Return ---
 ; True if the request was successful, false otherwise
-bool Function PatternRequest(String[] asActions, int[] asStrengths, int intervalMs, float afTimeSec, String asToy = "") native global
+bool Function PatternRequest(String[] asActions, int[] aiStrengths, int aiIntervalMs, float afTimeSec, String asToy = "") native global
 
 ; Request a default behaviour from a toy. For more information see:
 ; https://developer.lovense.com/docs/standard-solutions/standard-api.html#preset-request
@@ -59,4 +59,4 @@ bool Function PatternRequest(String[] asActions, int[] asStrengths, int interval
 ; asToy: ID of the toy to perform the actions on. If empty, all connected toys will be used
 ; --- Return ---
 ; True if the request was successful, false otherwise
-bool Function PresetReqest(String asPreset, float timeSec, String asToy = "") native global
+bool Function PresetReqest(String asPreset, float afTimeSec, String asToy = "") native global
