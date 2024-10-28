@@ -43,6 +43,17 @@ namespace Lovense
 		std::string GetCommand() const override;
 	};
 
+	struct Stop_Request : public Request
+	{
+		Stop_Request(std::optional<std::string> toy = std::nullopt) : toy(toy) {};
+		~Stop_Request() = default;
+		std::string GetCommand() const override;
+
+	private:
+		std::optional<std::string> toy;
+		static inline constexpr int apiVer = 1;
+	};
+
 	struct Function_Request : public Request
 	{
 		Function_Request(std::vector<Action> action, std::vector<int> strength, double timeSec,

@@ -50,6 +50,16 @@ namespace Lovense
 		}
 	}
 
+	std::string Stop_Request::GetCommand() const
+	{
+		json j;
+		j["command"] = "Function";
+		j["action"] = "Stop";
+		OPTIONAL_ATTRIBUTE(toy);
+		MANDATORY_ATTRIBUTE(apiVer);
+		return j.dump();
+	}
+
 	std::string Function_Request::GetCommand() const
 	{
 		json j;
