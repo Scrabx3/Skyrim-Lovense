@@ -15,6 +15,8 @@ namespace Lovense
 		Depth,
 		Stroke,
 		All,
+
+		Stop,
 	};
 
   constexpr static inline frozen::map<Action, std::string_view, 9> ACTION_CHAR{
