@@ -19,6 +19,8 @@ set(CXX_FILES
 	src/Skyrim/Interface/Interface.h
 	src/Skyrim/Interface/LovenseMenu.h
 	src/Skyrim/Interface/LovenseMenu.cpp
+	src/Skyrim/Papyrus/Functions.h
+	src/Skyrim/Papyrus/Functions.cpp
 	src/Skyrim/InputHandler.h
 	src/Skyrim/InputHandler.cpp
 	src/Skyrim/Serialize.h

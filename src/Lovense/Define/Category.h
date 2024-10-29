@@ -6,7 +6,9 @@ namespace Lovense {
 		Always = 0,	 // Trigger independent of category filter
 		Genital,
 		Anal,
-		Breast
+		Breast,
+
+    None
 	};
 
 } // namespace Lovense

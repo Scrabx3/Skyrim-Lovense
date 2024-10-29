@@ -50,7 +50,10 @@ namespace Lovense
 			const auto id = toy["id"].get<std::string>();
 			const auto nickName = toy["nickName"].get<std::string>();
 			const auto name = toy["name"].get<std::string>();
-			const auto category = GetCategoryImpl(id);
+			auto category = GetCategoryImpl(id);
+			if (category == Category::None) {
+				category = Category::Always;
+			}
 			newDevices.emplace_back(id, nickName.empty() ? name : nickName, category);
 		}
 		devices = newDevices;
@@ -78,7 +81,7 @@ namespace Lovense
 		const auto it = std::find_if(devices.begin(), devices.end(), [a_id](const auto& a_t) {
 			return a_t.id == a_id;
 		});
-		return it != devices.end() ? it->category : Category::Always;
+		return it != devices.end() ? it->category : Category::None;
 	}
 
 }	 // namespace Lovense
