@@ -122,7 +122,7 @@ namespace Papyrus
 		}
 	}
 
-	bool PatternRequest(VM* a_vm, StackID a_stackID, RE::StaticFunctionTag*, std::vector<RE::BSFixedString> actions, std::vector<int> strengths, int intervalMs, float timeSec, RE::BSFixedString asToy = "")
+	bool PatternRequest(VM* a_vm, StackID a_stackID, RE::StaticFunctionTag*, std::vector<RE::BSFixedString> actions, std::vector<int> strengths, int intervalMs, float timeSec, RE::BSFixedString asToy)
 	{
 		std::vector<Lovense::Action> actionVec;
 		for (const auto& action : actions) {
@@ -149,7 +149,7 @@ namespace Papyrus
 		}
 	}
 
-	bool PresetReqest(VM* a_vm, StackID a_stackID, RE::StaticFunctionTag*, RE::BSFixedString preset, float timeSec, RE::BSFixedString toy = "")
+	bool PresetReqest(VM* a_vm, StackID a_stackID, RE::StaticFunctionTag*, RE::BSFixedString preset, float timeSec, RE::BSFixedString toy)
 	{
     auto presetEnum = magic_enum::enum_cast<Lovense::Preset>(preset, magic_enum::case_insensitive);
     if (!presetEnum.has_value()) {
