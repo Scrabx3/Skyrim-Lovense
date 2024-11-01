@@ -1,8 +1,9 @@
-#include "Skyrim/Interface/LovenseMenu.h"
 #include "Lovense/RequestHandler.h"
 #include "Skyrim/InputHandler.h"
-#include "Skyrim/Settings.h"
+#include "Skyrim/Interface/LovenseMenu.h"
+#include "Skyrim/Papyrus/Functions.h"
 #include "Skyrim/Serialize.h"
+#include "Skyrim/Settings.h"
 
 static void SKSEMessageHandler(SKSE::MessagingInterface::Message* message)
 {
@@ -78,8 +79,14 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_s
 		logger::critical("Failed to initialize RequestHandler");
 		return false;
 	}
-	 const auto msging = SKSE::GetMessagingInterface();
-	 if (!msging->RegisterListener("SKSE", SKSEMessageHandler)) {
+	const auto papyrus = SKSE::GetPapyrusInterface();
+	if (!papyrus) {
+		logger::critical("Failed to get papyurs interface");
+		return false;
+	}
+	papyrus->Register(Papyrus::Register);
+	const auto msging = SKSE::GetMessagingInterface();
+	if (!msging->RegisterListener("SKSE", SKSEMessageHandler)) {
 	 	logger::critical("Failed to register Listener");
 	 	return false;
 	 }
