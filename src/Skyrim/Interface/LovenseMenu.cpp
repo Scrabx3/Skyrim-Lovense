@@ -103,7 +103,9 @@ namespace Interface
 					obj.GetMember("id", &idObj);
 					obj.GetMember("category", &catObj);
 					const auto id = idObj.GetString();
-					const auto cat = static_cast<int>(catObj.GetNumber());
+					const auto cat = catObj.IsNumber() ? static_cast<int>(catObj.GetNumber()) :
+													 catObj.IsString() ? std::stoi(catObj.GetString()) :
+																							 0;
 					const auto category = magic_enum::enum_cast<Lovense::Category>(cat);
 					if (category) {
 						Lovense::Connection::AssignCategory(id, category.value());
@@ -127,12 +129,11 @@ namespace Interface
 				logger::error("Invalid category for toy: {} ({})", toy.name, toy.id);
 				catIdx = std::make_optional(0);
 			}
-			const auto idx = std::to_string(*catIdx);
 			RE::GFxValue toyObj{};
 			this->uiMovie->CreateObject(&toyObj);
 			toyObj.SetMember("id", RE::GFxValue{ std::string_view{ toy.id } });
 			toyObj.SetMember("name", RE::GFxValue{ std::string_view{ toy.name } });
-			toyObj.SetMember("category", RE::GFxValue{ std::string_view{ idx } });
+			toyObj.SetMember("category", RE::GFxValue{ *catIdx });
 			args.emplace_back(toyObj);
 			return true;
 		});
