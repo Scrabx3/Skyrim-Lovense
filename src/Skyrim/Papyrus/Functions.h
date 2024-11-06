@@ -16,8 +16,8 @@ namespace Papyrus
 
 	inline bool Register(VM* a_vm)
 	{
-		REGISTERFUNC(GetToyIDs, "Lovense");
-		REGISTERFUNC(GetToyNames, "Lovense");
+		REGISTERFUNCND(GetToyIDs, "Lovense");
+		REGISTERFUNCND(GetToyNames, "Lovense");
 
 		REGISTERFUNC(GetToyName, "Lovense");
 		REGISTERFUNC(GetToyCategory, "Lovense");
