@@ -28,6 +28,7 @@ namespace Papyrus
 		REGISTERFUNC(PatternRequest, "Lovense");
 		REGISTERFUNC(PresetReqest, "Lovense");
 
+		logger::info("Registered papyrus functions");
 		return true;
 	}
 }	 // namespace Papyrus

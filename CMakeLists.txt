@@ -4,10 +4,6 @@ set(ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 
 # ---- Options ----
 option(COPY_TO_PAPYRUS "Copy finished build to Papyrus SKSE Folder" ON)
-set(PAPYRUS_ROOT "SkyrimLovense")
-set(PAPYRUS_SE "1597")
-set(PAPYRUS_AE "SKSE/Plugins")
-set(PAPYRUS_VR "14vr")
 
 # ---- Project ----
 project(
@@ -61,26 +57,22 @@ if(BUILD_SKYRIMVR)
     add_compile_definitions(SKYRIMVR)
     add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
     add_subdirectory("./lib/CommonLibVR" CommonLibSSE)
-    set(SkyrimPath ${MODS_FOLDER}/${PAPYRUS_ROOT}/${PAPYRUS_VR})
-    set(PackagePath "${CMAKE_SOURCE_DIR}/package/${PAPYRUS_VR}")
+    set(PackagePath "${CMAKE_SOURCE_DIR}/package/14vr")
     set(CommonLibName "CommonLibVR")
     message("Building Skyrim VR")
 else()
     if(BUILD_SKYRIMAE)
         add_compile_definitions(SKYRIM_AE)
         add_compile_definitions(SKYRIM_SUPPORT_AE)
-        set(SkyrimPath ${MODS_FOLDER}/${PAPYRUS_ROOT}/${PAPYRUS_AE})
-        set(PackagePath "${CMAKE_SOURCE_DIR}/package/${PAPYRUS_AE}")
+        set(PackagePath "${CMAKE_SOURCE_DIR}/package/SKSE/Plugins")
         message("Building Skyrim 1.6")
     else()
-        set(SkyrimPath ${MODS_FOLDER}/${PAPYRUS_ROOT}/${PAPYRUS_SE})
-        set(PackagePath "${CMAKE_SOURCE_DIR}/package/${PAPYRUS_SE}")
+        set(PackagePath "${CMAKE_SOURCE_DIR}/package/1597")
         message("Building Skyrim 1.5")
     endif()
-
     set(CommonLibName "CommonLibSSE")
-    add_subdirectory("./lib/CommonLibSSE" CommonLibSSE)
 endif()
+add_subdirectory("./lib/${CommonLibName}" CommonLibSSE)
 
 find_package(spdlog REQUIRED CONFIG)
 find_package(nlohmann_json REQUIRED)
@@ -169,20 +161,6 @@ target_precompile_headers(
 
 # ---- Post build ----
 if(COPY_TO_PAPYRUS)
-    if(DEFINED SkyrimPath)
-        add_custom_command(
-            TARGET ${PROJECT_NAME}
-            POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> ${SkyrimPath}
-            COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_PDB_FILE:${PROJECT_NAME}> ${SkyrimPath}
-        )
-    else()
-        message(
-            WARNING
-            "Variable ${SkyrimPath} is not defined. Skipping post-build copy command."
-        )
-    endif()
-
     add_custom_command(
         TARGET ${PROJECT_NAME}
         POST_BUILD
