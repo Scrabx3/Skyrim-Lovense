@@ -3,11 +3,8 @@
 *.code-workspace
 build/
 /vcpkg_installed
-xmake.lua
-xmake-requires.lock
 .xmake
 package/Scripts
-package/tmp
-package/.release
 package/SKSE/Plugins/*.pdb
 package/SKSE/Plugins/*.dll
+.release
