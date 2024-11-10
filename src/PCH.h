@@ -76,4 +76,6 @@ struct std::formatter<RE::BSFixedString> : std::formatter<const char*>
 };
 
 #define DLLEXPORT __declspec(dllexport)
-// #include "Plugin.h"
+#ifndef XMAKE
+#include "Plugin.h"
+#endif

@@ -38,7 +38,7 @@
         ["libcurl#31fecfc4"] = {
             repo = {
                 branch = "master",
-                commit = "56bcea100d9a3beca4c75d6fcb6d43242f7c2d44",
+                commit = "f6251c012faabeb21d64f50a41e892e56993e77e",
                 url = "https://github.com/xmake-io/xmake-repo.git"
             },
             version = "8.7.1"
