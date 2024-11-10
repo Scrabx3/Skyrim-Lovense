@@ -4,7 +4,7 @@
 build/
 /vcpkg_installed
 .xmake
-package/Scripts
-package/SKSE/Plugins/*.pdb
-package/SKSE/Plugins/*.dll
+dist/Scripts
+dist/SKSE/Plugins/*.pdb
+dist/SKSE/Plugins/*.dll
 .release
