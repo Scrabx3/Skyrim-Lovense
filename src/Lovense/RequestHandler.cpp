@@ -47,7 +47,7 @@ namespace Lovense
 					return std::format("http://{}:{}/command", ipAddr, port);
 				}
 			}();
-			const auto platformHeader = std::format("X-Platform: {}", Plugin::NAME);
+			const auto platformHeader = std::format("X-Platform: SkyrimSE");
 			struct curl_slist* headers = nullptr;
 			headers = curl_slist_append(headers, "Content-Type: application/json");
 			headers = curl_slist_append(headers, platformHeader.c_str());
