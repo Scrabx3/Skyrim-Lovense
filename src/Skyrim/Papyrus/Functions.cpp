@@ -67,7 +67,7 @@ namespace Papyrus
 		}
 		std::vector<RE::BSFixedString> ids;
 		Lovense::Connection::VisitToys([&ids, category](const auto& toy) {
-			if (toy.category == category.value()) {
+			if (toy.category == Lovense::Category::Always || toy.category == category.value()) {
 				ids.push_back(toy.id);
 			}
 			return true;

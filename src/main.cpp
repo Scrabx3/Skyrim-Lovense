@@ -2,7 +2,6 @@
 #include "Skyrim/InputHandler.h"
 #include "Skyrim/Interface/LovenseMenu.h"
 #include "Skyrim/Papyrus/Functions.h"
-#include "Skyrim/Serialize.h"
 #include "Skyrim/Settings.h"
 
 static void SKSEMessageHandler(SKSE::MessagingInterface::Message* message)
@@ -102,13 +101,6 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_s
 	 }
 	 Interface::LovenseMenu::Register();
 	 Skyrim::Settings::Initialize();
-
-	const auto serialization = SKSE::GetSerializationInterface();
-	serialization->SetUniqueID('lvns');
-	serialization->SetSaveCallback(Skyrim::Serialization::SaveCallback);
-	serialization->SetLoadCallback(Skyrim::Serialization::LoadCallback);
-	serialization->SetRevertCallback(Skyrim::Serialization::RevertCallback);
-	serialization->SetFormDeleteCallback(Skyrim::Serialization::FormDeleteCallback);
 
 	logger::info("{} loaded", project_name);
 

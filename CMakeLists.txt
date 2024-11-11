@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.22)
 set(ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 
 # ---- Options ----
-option(COPY_TO_PAPYRUS "Copy finished build to Papyrus SKSE Folder" ON)
+option(COPY_TO_PAPYRUS "Copy finished build to Papyrus SKSE Folder" OFF)
 
 # ---- Project ----
 project(
@@ -57,21 +57,19 @@ if(BUILD_SKYRIMVR)
     add_compile_definitions(SKYRIMVR)
     add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
     add_subdirectory("./lib/CommonLibVR" CommonLibSSE)
-    set(PackagePath "${CMAKE_SOURCE_DIR}/package/14vr")
     set(CommonLibName "CommonLibVR")
     message("Building Skyrim VR")
 else()
     if(BUILD_SKYRIMAE)
         add_compile_definitions(SKYRIM_AE)
         add_compile_definitions(SKYRIM_SUPPORT_AE)
-        set(PackagePath "${CMAKE_SOURCE_DIR}/package/SKSE/Plugins")
         message("Building Skyrim 1.6")
     else()
-        set(PackagePath "${CMAKE_SOURCE_DIR}/package/1597")
         message("Building Skyrim 1.5")
     endif()
     set(CommonLibName "CommonLibSSE")
 endif()
+set(PackagePath "${CMAKE_SOURCE_DIR}/dist/SKSE/Plugins")
 add_subdirectory("./lib/${CommonLibName}" CommonLibSSE)
 
 find_package(spdlog REQUIRED CONFIG)
