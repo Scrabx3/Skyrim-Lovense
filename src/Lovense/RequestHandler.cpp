@@ -92,7 +92,7 @@ namespace Lovense
 					request->SetFailure(std::format("Invalid command: {}", ERROR_CODES.at(errCode)));
 					continue;
 				}
-				request->SetResult(json["data"]);
+				request->SetResult(json);
 			} catch (const std::exception& e) {
 				request->SetFailure(std::format("Failed to parse response: {}", e.what()));
 			}

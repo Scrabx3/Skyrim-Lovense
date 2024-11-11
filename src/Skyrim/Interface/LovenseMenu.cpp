@@ -81,7 +81,7 @@ namespace Interface
 					logger::error("Failed to update Connections: {}", err);
 					Lovense::Connection::ClearToyList();
 				} else {
-					const auto& toys = request->GetResult()["toys"];
+					const auto& toys = request->GetResult()["data"]["toys"];
 					const auto toyStr = toys.get<std::string>();
 					const auto jToys = json::parse(toyStr);
 					Lovense::Connection::UpdateToyList(jToys);
