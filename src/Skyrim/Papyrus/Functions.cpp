@@ -169,4 +169,39 @@ namespace Papyrus
 			return false;
 		}
 	}
+
+	bool SetPort(RE::StaticFunctionTag*, int asPort)
+	{
+		Lovense::Connection::SetPORT(std::to_string(asPort));
+		return true;
+	}
+
+	bool SetAddress(RE::StaticFunctionTag*, RE::BSFixedString asAddress)
+	{
+		Lovense::Connection::SetIP_ADDR(asAddress.data());
+		return true;
+	}
+
+	bool ConnectImpl(RE::StaticFunctionTag*)
+	{
+		try {
+			auto request = std::make_shared<Lovense::GetToys_Request>();
+			Lovense::RequestHandler::GetSingleton()->SendRequest(request);
+			if (request->IsFailure()) {
+				const auto err = request->GetError();
+				logger::error("Failed to update Connections: {}", err);
+				Lovense::Connection::ClearToyList();
+				return false;
+			}
+			const auto& toys = request->GetResult()["data"]["toys"];
+			const auto toyStr = toys.get<std::string>();
+			const auto jToys = json::parse(toyStr);
+			Lovense::Connection::UpdateToyList(jToys);
+			return true;
+		} catch (const std::exception& e) {
+			logger::error("Failed to update Connections: {}", e.what());
+			return false;
+		}
+	}
+
 }	 // namespace Papyrus

@@ -1,0 +1,30 @@
+name: lovense
+script: LovenseCmd
+help: Commands for controlling connecting and managing Lovense toys. See the Lovense Nexus page for more information.
+subs:
+  - name: SetPort
+    alias: sp
+    func: SetPort
+    help: Sets the port to connect to.
+    args:
+      - name: port
+        type: int
+        required: true
+        help: The port to connect to.
+  - name: SetAddress
+    alias: sa
+    func: SetAddress
+    help: Sets the ip address to connect to.
+    args:
+      - name: Address
+        type: String
+        required: true
+        help: The address to connect to.
+  - name: Connect
+    alias: c
+    func: Connect
+    help: Attempts to establish a connects to the Lovense Remote App with the set Port and Address.  
+  - name: GetConnectedToys
+    alias: GetToys
+    func: GetConnectedToys
+    help: Return a list of all currently connected Lovense Toys.

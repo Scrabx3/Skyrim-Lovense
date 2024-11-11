@@ -15,6 +15,10 @@ namespace Papyrus
 	bool PatternRequest(VM* a_vm, StackID a_stackID, RE::StaticFunctionTag*, std::vector<RE::BSFixedString> actions, std::vector<int> strengths, int intervalMs, float timeSec, RE::BSFixedString asToy = "");
 	bool PresetReqest(VM* a_vm, StackID a_stackID, RE::StaticFunctionTag*, RE::BSFixedString preset, float timeSec, RE::BSFixedString toy);
 
+	bool SetPort(RE::StaticFunctionTag*, int asPort);
+	bool SetAddress(RE::StaticFunctionTag*, RE::BSFixedString asAddress);
+	bool ConnectImpl(RE::StaticFunctionTag*);
+
 	inline bool Register(VM* a_vm)
 	{
 		REGISTERFUNCND(GetConnectedCount, "Lovense");
@@ -29,6 +33,10 @@ namespace Papyrus
 		REGISTERFUNC(FunctionRequest, "Lovense");
 		REGISTERFUNC(PatternRequest, "Lovense");
 		REGISTERFUNC(PresetReqest, "Lovense");
+
+		REGISTERFUNC(SetPort, "LovenseCmd");
+		REGISTERFUNC(SetAddress, "LovenseCmd");
+		REGISTERFUNC(ConnectImpl, "LovenseCmd");
 
 		logger::info("Registered papyrus functions");
 		return true;
