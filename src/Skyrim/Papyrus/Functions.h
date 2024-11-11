@@ -2,6 +2,7 @@
 
 namespace Papyrus
 {
+	int32_t GetConnectedCount(RE::StaticFunctionTag*);
 	std::vector<RE::BSFixedString> GetToyIDs(RE::StaticFunctionTag*);
 	std::vector<RE::BSFixedString> GetToyNames(RE::StaticFunctionTag*);
 
@@ -16,6 +17,7 @@ namespace Papyrus
 
 	inline bool Register(VM* a_vm)
 	{
+		REGISTERFUNCND(GetConnectedCount, "Lovense");
 		REGISTERFUNCND(GetToyIDs, "Lovense");
 		REGISTERFUNCND(GetToyNames, "Lovense");
 

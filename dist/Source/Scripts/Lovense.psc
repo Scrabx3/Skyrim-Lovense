@@ -7,6 +7,9 @@ ScriptName Lovense Hidden
   The name of the enum corresponds to the expected string input (case insensitive).
 }
 
+; Get the number of currently connected toys
+int Function GetConnectedCount() native global
+
 ; Get a list of all currently connected Toys
 String[] Function GetToyIDs() native global
 

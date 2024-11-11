@@ -25,6 +25,7 @@ namespace Lovense
 
 		static std::string GetIP_ADDR();
 		static std::string GetPort();
+		static int32_t GetConnectedCount();
 		static Category GetCategory(std::string_view a_id);
 		static void VisitToys(std::function<bool(const Toy&)> a_visitor);
 

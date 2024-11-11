@@ -14,6 +14,12 @@ namespace Lovense
 		return PORT;
 	}
 
+	int32_t Connection::GetConnectedCount()
+	{
+		std::shared_lock lock(_m);
+		return static_cast<int32_t>(devices.size());
+	}
+
 	Category Connection::GetCategory(std::string_view a_id)
 	{
 		std::shared_lock lock(_m);
