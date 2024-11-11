@@ -1,14 +1,14 @@
 #pragma once
 
-namespace Lovense {
+namespace Lovense
+{
 	enum class Category
 	{
 		Always = 0,	 // Trigger independent of category filter
 		Genital,
 		Anal,
-		Breast,
 
-    None
+		None
 	};
 
-} // namespace Lovense
+}	 // namespace Lovense
