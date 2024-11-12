@@ -5,7 +5,7 @@ PROJECT_NAME = "SkyrimLovense"
 
 -- Project
 set_project(PROJECT_NAME)
-set_version("1.1.0")
+set_version("0.1.0")
 set_languages("cxx23")
 set_license("Apache-2.0")
 set_warnings("allextra", "error")
@@ -53,7 +53,7 @@ target(PROJECT_NAME)
     add_rules("commonlibsse-ng.plugin", {
         name = PROJECT_NAME,
         author = "Scrab Joséline",
-        description = "Backend systems for SexLab P+"
+        description = "API to interact with Lovense Toys through Papyrus"
     })
 
     -- Source files
