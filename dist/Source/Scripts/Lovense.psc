@@ -2,9 +2,6 @@ ScriptName Lovense Hidden
 {
   API Script to control Lovense toys. Each function in this script is blocking and
   will pause the script until the command is either fully processed or timed out.
-
-  NOTE: For all enum value string-arguments see the corresponding files in the Define-Folder.
-  The name of the enum corresponds to the expected string input (case insensitive).
 }
 
 ; Get the number of currently connected toys

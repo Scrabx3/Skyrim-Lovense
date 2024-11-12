@@ -1,13 +1,13 @@
 name: lovense
 script: LovenseCmd
-help: Commands for controlling connecting and managing Lovense toys. See the Lovense Nexus page for more information.
+help: Commands for managing current Lovense Remote connections. See the Lovense Nexus page for more information.
 subs:
   - name: SetPort
     alias: sp
     func: SetPort
     help: Sets the port to connect to.
     args:
-      - name: port
+      - name: Port
         type: int
         required: true
         help: The port to connect to.
