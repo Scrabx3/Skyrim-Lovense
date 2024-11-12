@@ -8,7 +8,8 @@ static void SKSEMessageHandler(SKSE::MessagingInterface::Message* message)
 {
 	switch (message->type) {
 	case SKSE::MessagingInterface::kDataLoaded:
-		Skyrim::InputHandler::Register();
+		if (REL::Module::GetRuntime() != REL::Module::Runtime::VR)
+			Skyrim::InputHandler::Register();
 		break;
 	}
 }
@@ -98,9 +99,10 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_s
 	if (!msging->RegisterListener("SKSE", SKSEMessageHandler)) {
 	 	logger::critical("Failed to register Listener");
 	 	return false;
-	 }
-	 Interface::LovenseMenu::Register();
-	 Skyrim::Settings::Initialize();
+	}
+	if (REL::Module::GetRuntime() != REL::Module::Runtime::VR)
+		Interface::LovenseMenu::Register();
+	Skyrim::Settings::Initialize();
 
 	logger::info("{} loaded", project_name);
 
