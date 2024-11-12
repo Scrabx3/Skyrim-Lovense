@@ -23,7 +23,7 @@ subs:
   - name: Connect
     alias: c
     func: Connect
-    help: Attempts to establish a connects to the Lovense Remote App with the set Port and Address.  
+    help: Attempts to establish a connection to the Lovense Remote App with the previously set Port and Address.  
   - name: GetConnectedToys
     alias: GetToys
     func: GetConnectedToys
