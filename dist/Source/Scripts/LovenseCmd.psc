@@ -12,5 +12,5 @@ String Function Connect() global
 EndFunction
 
 String Function GetConnectedToys() global
-  return Lovense.GetToyIDs()
+  return Lovense.GetToyNames()
 EndFunction

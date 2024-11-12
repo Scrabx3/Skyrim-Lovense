@@ -172,13 +172,26 @@ namespace Papyrus
 
 	bool SetPort(RE::StaticFunctionTag*, int asPort)
 	{
+		if (asPort < 1 || asPort > 65535) {
+			logger::error("Invalid port: {}", asPort);
+			return false;
+		}
 		Lovense::Connection::SetPORT(std::to_string(asPort));
 		return true;
 	}
 
 	bool SetAddress(RE::StaticFunctionTag*, RE::BSFixedString asAddress)
 	{
-		Lovense::Connection::SetIP_ADDR(asAddress.data());
+		if (asAddress.empty() || asAddress.size() > 15) {
+			logger::error("Invalid IP address: {}", asAddress.data());
+			return false;
+		}
+		std::string addr{ asAddress.data() };
+		if (addr.find_first_not_of("0123456789.") != std::string::npos) {
+			logger::error("Invalid IP address: {}", addr);
+			return false;
+		}
+		Lovense::Connection::SetIP_ADDR(addr);
 		return true;
 	}
 
