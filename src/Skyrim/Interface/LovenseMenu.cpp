@@ -154,7 +154,7 @@ namespace Interface
 
 	void Scaleform_Help::Call(Params&)
 	{
-		std::string url = "https://www.nexusmods.com";
+		std::string url = "https://www.nexusmods.com/skyrimspecialedition/mods/133698";
 		ShellExecuteA(nullptr, "open", url.c_str(), nullptr, nullptr, SW_SHOWNORMAL);
 		logger::info("Help requested");
 	}
